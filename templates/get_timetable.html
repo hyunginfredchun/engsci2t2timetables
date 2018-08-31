@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get 2018 Fall Timetable</title>
+    <style>
+        html {
+            background: white;
+            font-family: "Helvetica";
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #808080;
+        }
+
+        tr:nth-of-type(1) {
+            background: #bfbfbf;
+        }
+
+        td {
+            line-height: 0.25em;
+            text-align: center;
+            vertical-align: text-top;
+        }
+
+        div {
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .container {
+            display: flex;
+            max-height: none;
+        }
+
+        .none {
+            background: white;
+            color: black;
+        }
+
+        .civ102 {
+            background: #61bc45;
+            color: white;
+        }
+
+        .csc180 {
+            background: #fcb827;
+            color: white;
+        }
+
+        .esc101 {
+            background: #f6821f;
+            color: white;
+        }
+
+        .esc103 {
+            background: #e03a3e;
+            color: white;
+        }
+
+        .mat194 {
+            background: #963d97;
+            color: white;
+        }
+
+        .phy180 {
+            background: #009ddc;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>2018 Fall Timetable</h1>
+    <form>
+        <input type="text" name="name" placeholder="name">
+        <input type="submit" value="Submit">
+        {% if timetable != False %}
+        <hr>
+        <table>
+            <tr>
+                <th></th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+            </tr>
+            {% for x in range(9) %}
+                <tr>
+                    {% if (x + 9) % 12 == 0 %}
+                        <td>12:00</td>
+                    {% else %}
+                        <td>{{ (x + 9) % 12 }}:00</td>
+                    {% endif %}
+                    {% for y in range(5) %}
+                        <td class="{{ timetable[y][x].lower() }}">
+                            <p>{{ timetable[y][x] }}</p>
+                            <hr>
+                            <div class="container">
+                                {% for z in range((names[y][x]|length / 20)|int) %}
+                                    <div>
+                                        {% for a in range(20) %}
+                                            <p>{{ names[y][x][z * 20 + a] }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                                {% if (names[y][x]|length) % 20 != 0 %}
+                                    <div>
+                                        {% for b in range((names[y][x]|length / 20)|int * 20, names[y][x]|length) %}
+                                            <p>{{ names[y][x][b] }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <p class="civ102">CIV102 - Structures and Materials</p>
+        <p class="csc180">CSC180 - Introduction to Computer Programming</p>
+        <p class="esc101">ESC101 - Praxis I</p>
+        <p class="esc103">ESC103 - Engineering Mathematics and Computation</p>
+        <p class="mat194">MAT194 - Calculus I</p>
+        <p class="phy180">PHY180 - Classical Mechanics</p>
+        {% endif %}
+    </form>
+    <hr>
+    <p>Copyright © 2018 Fred Chun. All rights reserved.</p>
+</body>
+</html>
